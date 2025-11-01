@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<title>✨ 发财DIY-定制编码 ✨</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: "Poppins", "PingFang SC", sans-serif;
+    background: radial-gradient(circle at 20% 20%, #0f2027, #203a43, #2c5364);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    color: #fff;
+  }
+
+  canvas#bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
+
+  .container {
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    max-width: 700px;
+    width: 90%;
+  }
+
+  h2 {
+    font-size: 28px;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+    background: linear-gradient(90deg, #00ffff, #ff00c3, #00ffff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 15px rgba(0,255,255,0.5);
+  }
+
+  textarea {
+    width: 80%;
+    height: 120px;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    resize: none;
+    font-size: 18px;
+    color: #fff;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.2);
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 12px 32px;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    color: #fff;
+    background: linear-gradient(90deg, #00d4ff, #0072ff);
+    box-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
+    transition: 0.3s ease;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(0, 198, 255, 0.8);
+  }
+
+  p {
+    font-size: 20px;
+    margin-top: 30px;
+  }
+
+  #output {
+    display: inline-block;
+    margin-top: 10px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 15px 20px;
+    font-size: 18px;
+    word-break: break-all;
+    color: #00ffff;
+    box-shadow: inset 0 0 20px rgba(0,255,255,0.2);
+    max-width: 90%;
+  }
+
+  footer {
+    position: fixed;
+    bottom: 20px;
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+  }
+</style>
+
+<body>
+  <canvas id="bg"></canvas>
+
+  <div class="container">
+    <h2>✨ 发财DIY-定制编码 ✨</h2>
+    <textarea id="input">输入你想要要实现的显示内容</textarea><br>
+    <button onclick="encode()">转换</button>
+    <p>结果（复制粘贴即可使用）：</p >
+    <pre id="output"></pre>
+  </div>
+
+  <footer>💠 备注：发现任何bug可以联系我微信：fff17351 💠</footer>
+
+  <script>
+    // 粒子背景效果
+    const c = document.getElementById("bg");
+    const ctx = c.getContext("2d");
+    let w, h, particles;
+    function resize() {
+      w = c.width = window.innerWidth;
+      h = c.height = window.innerHeight;
+      particles = Array(60).fill().map(() => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 2 + 1,
+        dx: (Math.random() - 0.5) * 0.8,
+        dy: (Math.random() - 0.5) * 0.8
+      }));
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    function animate() {
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "rgba(0,255,255,0.6)";
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > w) p.dx *= -1;
+        if (p.y < 0 || p.y > h) p.dy *= -1;
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // 编码功能（核心逻辑未改动）
+    function encode() {
+      let s = document.getElementById('input').value;
+      let result = '';
+      for (let ch of s) {
+        result += '&#x' + ch.charCodeAt(0).toString(16).toUpperCase() + ';';
+      }
+      document.getElementById('output').textContent = result;
+    }
+  </script>
+</body>
+</html>
