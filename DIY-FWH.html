@@ -120,7 +120,6 @@
   <footer>💠 备注：发现任何bug可以联系我微信：fff17351 💠</footer>
 
   <script>
-    // 粒子背景效果
     const c = document.getElementById("bg");
     const ctx = c.getContext("2d");
     let w, h, particles;
@@ -153,8 +152,7 @@
       requestAnimationFrame(animate);
     }
     animate();
-
-    // 编码功能（核心逻辑未改动）
+    
     function encode() {
       let s = document.getElementById('input').value;
       let result = '';
